@@ -8,7 +8,7 @@ namespace DatingApp.API.Data
     public class AuthRepository : IAuthRepository
     {
         private readonly DataContext _context;
-        private AuthRepository(DataContext context)
+        public AuthRepository(DataContext context)
         {
             _context = context;
 
@@ -17,13 +17,10 @@ namespace DatingApp.API.Data
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
             if (user == null)
-            {
                 return null;
-            }
+                
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-            {
                 return null;
-            }
 
             return user;
         }
